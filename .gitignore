@@ -1,0 +1,10 @@
+/Saved
+/Intermediate
+/Binaries
+/Build
+/.vs
+/ImGui_Ex.sln
+/ImGui_Ex.uproject
+*.sln
+/Plugins
+*_BuiltData.uasset
