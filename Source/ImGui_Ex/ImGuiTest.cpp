@@ -1,23 +1,18 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "ImGuiTest.h"
 
-// Sets default values
 AImGuiTest::AImGuiTest()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+ 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void AImGuiTest::BeginPlay()
 {
 	Super::BeginPlay();
 
 #if WITH_IMGUI
-	// ImGuiのWorld Delegateに処理を登録
+	// ImGui의 World Delegate에 처리를 등록 
 	FImGuiDelegates::OnWorldDebug().AddUObject(this, &AImGuiTest::ImGuiTick);
 #endif // WITH_IMGUI
 	
@@ -28,7 +23,7 @@ void AImGuiTest::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 
 #if WITH_IMGUI
-	// ImGuiのWorld Delegateに登録した処理を解除
+	// ImGui의World Delegate에 등록했던 처리를 해제
 	FImGuiDelegates::OnWorldDebug().RemoveAll(this);
 #endif // WITH_IMGUI
 }

@@ -9,20 +9,20 @@
 #endif // IMGUI_API
 
 #if WITH_IMGUI
-#include <ImGuiModule.h>
-#include <ImGuiDelegates.h>
+#include "ImGuiModule.h"
+#include "ImGuiDelegates.h"
 
 #include <imgui.h>
 #endif // WITH_IMGUI
 
-#include "CoreMinimal.h"
+//#include "CoreMinimal.h"
 
 /**
  * 
  */
-class IMGUI_EX_API ImGuiCommon
-{
-public:
-	ImGuiCommon();
-	~ImGuiCommon();
-};
+//class IMGUI_EX_API ImGuiCommon
+//{
+//public:
+//	ImGuiCommon();
+//	~ImGuiCommon();
+//};
