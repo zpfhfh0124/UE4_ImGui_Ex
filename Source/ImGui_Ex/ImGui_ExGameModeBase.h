@@ -14,4 +14,14 @@ class IMGUI_EX_API AImGui_ExGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	AImGui_ExGameModeBase();
+
+protected:
+	virtual void BeginPlay() override;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+	//TSubclassOf<UUserWidget> HUDWidget;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+	//UUserWidget* CurrentWidget;
 };

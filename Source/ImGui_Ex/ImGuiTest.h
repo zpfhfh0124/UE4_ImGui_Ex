@@ -16,15 +16,25 @@ class IMGUI_EX_API AImGuiTest : public AActor
 public:	
 	AImGuiTest();
 
+	UPROPERTY(EditAnywhere)
+	UTexture2D* Texture;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+private:
+	char* Title;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
 
 #if WITH_IMGUI
-	void ImGuiTick();
+	FString wDayToString(int wDay);
+	void ImGuiTest();
+
+	void ImGui_ShowNowTime();
+	void ImGui_ShowImage();
 #endif
 
 };
