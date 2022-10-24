@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include <ImGui_Ex/UIWidgetMain.h>
 #include "ImGui_ExGameModeBase.generated.h"
 
 /**
@@ -20,8 +21,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
-	//TSubclassOf<UUserWidget> HUDWidget;
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
-	//UUserWidget* CurrentWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+	TSubclassOf<UUserWidget> MainWidgetClass;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+	UUIWidgetMain* MainWidget;
 };

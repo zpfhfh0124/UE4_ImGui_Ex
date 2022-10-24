@@ -19,6 +19,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	UTexture2D* Texture;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool IsOnTimeWindow = false;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

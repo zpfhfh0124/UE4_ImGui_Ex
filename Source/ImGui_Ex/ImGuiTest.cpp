@@ -38,9 +38,9 @@ void AImGuiTest::Tick(float DeltaTime)
 
 #if WITH_IMGUI
 	ImGui::Begin(Title);
-	/*ImGui::Text("Actor Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
-		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));*/
-	ImGui_ShowNowTime();
+	if (IsOnTimeWindow) {
+		ImGui_ShowNowTime();
+	}
 	ImGui::End();
 #endif // WITH_IMGUI
 }
@@ -92,7 +92,7 @@ void AImGuiTest::ImGui_ShowNowTime()
 	time_t curTime = time(NULL);
 	struct tm* pLocalTime = localtime(&curTime);
 
-	ImGui::Text("Today : %04d - %02d - %02d (%s)", 1900 + pLocalTime->tm_year, pLocalTime->tm_mon, pLocalTime->tm_mday, FText::FromString(*wDayToString(pLocalTime->tm_wday)) );
+	ImGui::Text("Today : %04d - %02d - %02d", 1900 + pLocalTime->tm_year, pLocalTime->tm_mon, pLocalTime->tm_mday/*, FText::FromString(*wDayToString(pLocalTime->tm_wday))*/ );
 	ImGui::Text("Now Time : %02d : %02d : %02d", pLocalTime->tm_hour, pLocalTime->tm_min, pLocalTime->tm_sec);
 }
 
