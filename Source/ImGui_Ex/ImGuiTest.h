@@ -16,11 +16,8 @@ class IMGUI_EX_API AImGuiTest : public AActor
 public:	
 	AImGuiTest();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTexture2D* Texture;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	bool IsOnTimeWindow = false;
 
 protected:
 	virtual void BeginPlay() override;
@@ -29,6 +26,9 @@ protected:
 private:
 	FString Title;
 	FString eWDay_to_string;
+
+	bool IsOnTimeWindow = false;
+	bool IsOnImgWindow = false;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
@@ -45,5 +45,6 @@ private:
 	void wDayToString(int wDay);
 #if WITH_IMGUI
 	void culcurateNowTime();
+	void viewImage();
 #endif
 };

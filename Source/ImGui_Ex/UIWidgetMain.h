@@ -25,6 +25,8 @@ public:
 public:
 	UFUNCTION(BlueprintCallable)
 	void OnClickTimeWindowBtn();
+	UFUNCTION(BlueprintCallable)
+	void OnClickImgWindowBtn();
 
 private:
 	void SetImGuiTestActor();

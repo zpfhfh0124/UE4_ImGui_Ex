@@ -15,6 +15,13 @@ void UUIWidgetMain::OnClickTimeWindowBtn()
 	ImGuiTest->ImGui_Show_NowTime();
 }
 
+void UUIWidgetMain::OnClickImgWindowBtn()
+{
+	SetImGuiTestActor();
+	if (ImGuiTest == nullptr) return;
+	ImGuiTest->ImGui_Show_Image();
+}
+
 // 버튼 클릭 -> ImGui 윈도우를 띄우기 전 호출해야 함.
 void UUIWidgetMain::SetImGuiTestActor()
 {
