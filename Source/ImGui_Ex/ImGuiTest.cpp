@@ -6,7 +6,7 @@
 AImGuiTest::AImGuiTest()
 {
  	PrimaryActorTick.bCanEverTick = true;
-	Title = "ImGui Test";
+	SetTitle( FString("ImGui Test") );
 }
 
 void AImGuiTest::BeginPlay()
@@ -14,9 +14,15 @@ void AImGuiTest::BeginPlay()
 	Super::BeginPlay();
 
 #if WITH_IMGUI
+	// 한글 출력
+	auto& io = ImGui::GetIO();
+	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\malgun.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+	
+	// 텍스쳐 등록
+	//FImGuiModule::Get().RegisterTexture("")
+
 	// ImGui의 World Delegate에 처리를 등록 
 	FImGuiDelegates::OnWorldDebug().AddUObject(this, &AImGuiTest::ImGuiTest);
-	//FImGuiModule::Get().RegisterTexture("")
 #endif // WITH_IMGUI
 	
 }
@@ -37,46 +43,24 @@ void AImGuiTest::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 #if WITH_IMGUI
-	ImGui::Begin(Title);
+	//ImGui::Begin( TCHAR_TO_ANSI( *Title ) );
 	if (IsOnTimeWindow) {
-		ImGui_ShowNowTime();
+		culcurateNowTime();
 	}
-	ImGui::End();
+	//ImGui::End();
 #endif // WITH_IMGUI
 }
 
-#if WITH_IMGUI
-FString AImGuiTest::wDayToString(int wDay)
+void AImGuiTest::SetTitle(FString title)
 {
-	FString eWDay_to_string = TEXT("Invalid");
+	Title = title;
+}
 
-	wDay %= 7;
-	switch (wDay)
-	{
-		case 0:
-			eWDay_to_string = TEXT("SUN");
-		break;
-		case 1:
-			eWDay_to_string = TEXT("MON");
-		break;
-		case 2:
-			eWDay_to_string = TEXT("TUE");
-		break;
-		case 3:
-			eWDay_to_string = TEXT("WED");
-		break;
-		case 4:
-			eWDay_to_string = TEXT("THU");
-		break;
-		case 5:
-			eWDay_to_string = TEXT("FRY");
-		break;
-		case 6:
-			eWDay_to_string = TEXT("SAT");
-		break;
-	}
-
-	return eWDay_to_string;
+#if WITH_IMGUI
+void AImGuiTest::ImGuiClear()
+{
+	IsOnTimeWindow = false;
+	ImGui::End();
 }
 
 void AImGuiTest::ImGuiTest()
@@ -87,18 +71,59 @@ void AImGuiTest::ImGuiTest()
 	ImGui::End();
 }
 
-void AImGuiTest::ImGui_ShowNowTime()
+void AImGuiTest::ImGui_Show_NowTime()
 {
-	time_t curTime = time(NULL);
-	struct tm* pLocalTime = localtime(&curTime);
-
-	ImGui::Text("Today : %04d - %02d - %02d", 1900 + pLocalTime->tm_year, pLocalTime->tm_mon, pLocalTime->tm_mday/*, FText::FromString(*wDayToString(pLocalTime->tm_wday))*/ );
-	ImGui::Text("Now Time : %02d : %02d : %02d", pLocalTime->tm_hour, pLocalTime->tm_min, pLocalTime->tm_sec);
+	SetTitle( FString( "Current Time" ) );
+	IsOnTimeWindow = true;
 }
 
-void AImGuiTest::ImGui_ShowImage()
+void AImGuiTest::ImGui_Show_Image()
 {
-
+	SetTitle(FString("Image View"));
+	ImGui::Begin(TCHAR_TO_ANSI(*Title));
 }
 #endif
 
+void AImGuiTest::wDayToString(int wDay)
+{
+	eWDay_to_string = TEXT("Invalid");
+
+	wDay %= 7;
+
+	switch (wDay)
+	{
+	case 0:
+		eWDay_to_string = FString("SUN");
+		break;
+	case 1:
+		eWDay_to_string = FString("MON");
+		break;
+	case 2:
+		eWDay_to_string = FString("TUE");
+		break;
+	case 3:
+		eWDay_to_string = FString("WED");
+		break;
+	case 4:
+		eWDay_to_string = FString("THU");
+		break;
+	case 5:
+		eWDay_to_string = FString("FRI");
+		break;
+	case 6:
+		eWDay_to_string = FString("SAT");
+		break;
+	}
+}
+
+void AImGuiTest::culcurateNowTime()
+{
+	ImGui::Begin(TCHAR_TO_ANSI(*Title));
+	//ImGui::SetWindowPos( ImVec2(800, 300) );
+	time_t curTime = time(NULL);
+	struct tm* pLocalTime = localtime(&curTime);
+	wDayToString(pLocalTime->tm_wday);
+	ImGui::Text("Today : %04dY %02dM %02dD (%s)", 1900 + pLocalTime->tm_year, pLocalTime->tm_mon + 1, pLocalTime->tm_mday, *eWDay_to_string);
+	ImGui::Text("Now Time { %02d:%02d:%02d }", pLocalTime->tm_hour, pLocalTime->tm_min, pLocalTime->tm_sec);
+	ImGui::End();
+}

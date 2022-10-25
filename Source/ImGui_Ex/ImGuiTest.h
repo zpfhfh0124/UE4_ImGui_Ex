@@ -27,17 +27,23 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
-	char* Title;
+	FString Title;
+	FString eWDay_to_string;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
-
+	void SetTitle(FString title);
+	
 #if WITH_IMGUI
-	FString wDayToString(int wDay);
+	void ImGuiClear();
 	void ImGuiTest();
-
-	void ImGui_ShowNowTime();
-	void ImGui_ShowImage();
+	void ImGui_Show_NowTime();
+	void ImGui_Show_Image();
 #endif
 
+private:
+	void wDayToString(int wDay);
+#if WITH_IMGUI
+	void culcurateNowTime();
+#endif
 };
