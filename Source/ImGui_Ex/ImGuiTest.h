@@ -16,8 +16,9 @@ class IMGUI_EX_API AImGuiTest : public AActor
 public:	
 	AImGuiTest();
 
+	// 텍스쳐 세팅은 블루프린트 액터에서...
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UTexture2D* Texture;
+	TArray<UTexture2D*> TextureArray;
 
 protected:
 	virtual void BeginPlay() override;
@@ -30,6 +31,7 @@ private:
 	bool IsOnTimeWindow = false;
 	bool IsOnImgWindow = false;
 
+	FRandomStream* rs;
 public:	
 	virtual void Tick(float DeltaTime) override;
 	void SetTitle(FString title);

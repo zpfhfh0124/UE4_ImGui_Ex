@@ -7,9 +7,6 @@ AImGuiTest::AImGuiTest()
 {
  	PrimaryActorTick.bCanEverTick = true;
 	SetTitle( FString("ImGui Test") );
-
-	// 텍스쳐 세팅
-	
 }
 
 void AImGuiTest::BeginPlay()
@@ -22,7 +19,14 @@ void AImGuiTest::BeginPlay()
 	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\malgun.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
 	
 	// 텍스쳐 등록
-	FImGuiModule::Get().RegisterTexture("PriconeImg", Texture);
+	for (int idx = 0; idx != TextureArray.Num(); ++idx) 
+	{
+
+		FString str = FString::Printf(TEXT("pricone_%d"), idx);
+		FName name = FName(*str);
+		FImGuiModule::Get().RegisterTexture(name, TextureArray[idx]);
+		
+	}
 
 	// ImGui의 World Delegate에 처리를 등록 
 	FImGuiDelegates::OnWorldDebug().AddUObject(this, &AImGuiTest::ImGuiTest);
@@ -36,8 +40,13 @@ void AImGuiTest::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 #if WITH_IMGUI
 	// 텍스쳐 해제
-	FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle("PriconeImg");
-	FImGuiModule::Get().ReleaseTexture(TextureHandle);
+	for (int idx = 0; idx != TextureArray.Num(); ++idx)
+	{
+		FString str = FString::Printf(TEXT("pricone_%d"), idx);
+		FName name = FName(*str);
+		FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle(name);
+		FImGuiModule::Get().ReleaseTexture(TextureHandle);
+	}
 
 	// ImGui의World Delegate에 등록했던 처리를 해제
 	FImGuiDelegates::OnWorldDebug().RemoveAll(this);
@@ -144,7 +153,16 @@ void AImGuiTest::viewImage()
 {
 	SetTitle(FString("Image View"));
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
-	FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle("PriconeImg");
+
+	// 텍스쳐 배열에서 랜덤으로 한장 꺼낸다
+	int max = TextureArray.Num();
+
+	// ** 현재 rs가 Null인 이슈 -> FRandomStream 인스턴스를 할당하고 메모리 관리 필요...
+	int rand_idx = rs->RandRange(0, max - 1);
+	FString str = FString::Printf(TEXT("pricone_%d"), rand_idx);
+	FName name = FName(*str);
+	FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle(name);
 	ImGui::Image(TextureHandle, ImVec2(800, 300));
+
 	ImGui::End();
 }
