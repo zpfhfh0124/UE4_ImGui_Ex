@@ -144,7 +144,8 @@ void AImGuiTest::SetRandomTextureName(int max)
 {
 	// 텍스쳐 배열에서 랜덤으로 한장 꺼낸다
 	// ** 현재 rs가 Null인 이슈 -> FRandomStream 인스턴스를 할당하고 메모리 관리 필요...
-	FRandomStream rs;
+	FRandomStream rs = FRandomStream::FRandomStream();
+	rs.GenerateNewSeed();
 	int rand_idx = rs.RandRange(0, max - 1);
 	FString str = FString::Printf(TEXT("pricone_%d"), rand_idx);
 	rand_texture_name = FName(*str);
