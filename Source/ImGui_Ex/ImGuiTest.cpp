@@ -31,7 +31,8 @@ void AImGuiTest::BeginPlay()
 	max_texture_array = TextureArray.Num();
 
 	// ImGui의 World Delegate에 처리를 등록 
-	FImGuiDelegates::OnWorldDebug().AddUObject(this, &AImGuiTest::ImGuiTest);
+	FImGuiDelegates::OnWorldDebug().AddUObject(this, &AImGuiTest::ImGuiAlwaysShow);
+
 #endif // WITH_IMGUI
 	
 }
@@ -86,24 +87,40 @@ void AImGuiTest::ImGuiClear()
 	ImGui::End();
 }
 
-void AImGuiTest::ImGuiTest()
+void AImGuiTest::ImGuiAlwaysShow()
 {
-	ImGui::Begin("ImGui Debug Order Test");
+	ImGui::Begin("ImGui -> UMG InputMode Change");
+
+	// 최초 1회만 실행
+	if (onInitAlwaysWindow) 
+	{
+		ImGui::SetWindowPos( ImVec2(700, 50) );
+		onInitAlwaysWindow = false;
+	}
+
 	ImGui::Text("ImGui World Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
 		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));
+	if (ImGui::Button("UMG InputMode Change")) 
+	{
+		GetGameInstance()->GetFirstLocalPlayerController()->ConsoleCommand(FString("ImGui.ToggleInput"));
+	};
 	ImGui::End();
 }
 
 void AImGuiTest::ImGui_Show_NowTime()
 {
+	ImGuiClear();
 	SetTitle( FString( "Current Time" ) );
+	onClickedTimeWindow = true;
 	IsOnTimeWindow = true;
 }
 
 void AImGuiTest::ImGui_Show_Image()
 {
+	ImGuiClear();
 	SetTitle(FString("View Image"));
 	SetRandomTextureName(max_texture_array);
+	onClickedImgWindow = true;
 	IsOnImgWindow = true;
 }
 #endif
@@ -148,13 +165,23 @@ void AImGuiTest::SetRandomTextureName(int max)
 	rs.GenerateNewSeed();
 	int rand_idx = rs.RandRange(0, max - 1);
 	FString str = FString::Printf(TEXT("pricone_%d"), rand_idx);
+	curr_texture_idx = rand_idx;
 	rand_texture_name = FName(*str);
 }
 
 void AImGuiTest::culcurateNowTime()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
-	//ImGui::SetWindowPos( ImVec2(800, 300) );
+
+	// 최초 1회만 실행
+	if (onClickedTimeWindow) 
+	{
+		ImGui::SetWindowSize(ImVec2(280, 80));
+		ImGui::SetWindowPos(ImVec2(ImGui::GetCursorPosX() + 300, ImGui::GetCursorPosY() + 50));
+
+		onClickedTimeWindow = false;
+	}
+
 	time_t curTime = time(NULL);
 	struct tm* pLocalTime = localtime(&curTime);
 	wDayToString(pLocalTime->tm_wday);
@@ -167,8 +194,19 @@ void AImGuiTest::viewImage()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
 	
+	// 최초 1회만 실행
+	if (onClickedImgWindow)
+	{
+		int sizeX = TextureArray[curr_texture_idx]->GetSizeX() / 2;
+		int sizeY = TextureArray[curr_texture_idx]->GetSizeY() / 2;
+		ImGui::SetWindowSize(ImVec2(sizeX, sizeY));
+		ImGui::SetWindowPos(ImVec2(ImGui::GetCursorPosX() + 300, ImGui::GetCursorPosY() + 50));
+
+		onClickedImgWindow = false;
+	}
+
 	FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle(rand_texture_name);
 	ImGui::Image(TextureHandle, ImVec2(800, 300));
-
+	
 	ImGui::End();
 }

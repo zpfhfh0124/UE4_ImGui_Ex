@@ -7,7 +7,7 @@
 AImGui_ExGameModeBase::AImGui_ExGameModeBase() 
 {
 	static ConstructorHelpers::FClassFinder<UUIWidgetMain> 
-		MainWidgetAsset(TEXT("WidgetBlueprint'/Game/UI/BP_Widget_Main.BP_Widget_Main_C'"));
+		MainWidgetAsset(TEXT("WidgetBlueprint'/Game/BluePrints/UI/BP_Widget_Main.BP_Widget_Main_C'"));
 	if (MainWidgetAsset.Succeeded()) MainWidgetClass = MainWidgetAsset.Class;
 }
 

@@ -8,6 +8,11 @@
 //	
 //}
 
+void UUIWidgetMain::OnClickImGuiToggleInputBtn()
+{
+	GetGameInstance()->GetFirstLocalPlayerController()->ConsoleCommand(FString("ImGui.ToggleInput"));
+}
+
 void UUIWidgetMain::OnClickTimeWindowBtn()
 {
 	SetImGuiTestActor();
