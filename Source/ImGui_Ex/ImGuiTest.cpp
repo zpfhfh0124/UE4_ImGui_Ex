@@ -103,7 +103,7 @@ void AImGuiTest::ImGui_Show_NowTime()
 void AImGuiTest::ImGui_Show_Image()
 {
 	SetTitle(FString("View Image"));
-	rand_texture_name = GetRandomTextureName(max_texture_array);
+	SetRandomTextureName(max_texture_array);
 	IsOnImgWindow = true;
 }
 #endif
@@ -140,7 +140,7 @@ void AImGuiTest::wDayToString(int wDay)
 	}
 }
 
-FName AImGuiTest::GetRandomTextureName(int max)
+void AImGuiTest::SetRandomTextureName(int max)
 {
 	// 텍스쳐 배열에서 랜덤으로 한장 꺼낸다
 	// ** 현재 rs가 Null인 이슈 -> FRandomStream 인스턴스를 할당하고 메모리 관리 필요...
@@ -148,8 +148,6 @@ FName AImGuiTest::GetRandomTextureName(int max)
 	int rand_idx = rs.RandRange(0, max - 1);
 	FString str = FString::Printf(TEXT("pricone_%d"), rand_idx);
 	rand_texture_name = FName(*str);
-
-	return rand_texture_name;
 }
 
 void AImGuiTest::culcurateNowTime()

@@ -46,7 +46,7 @@ public:
 
 private:
 	void wDayToString(int wDay);
-	FName GetRandomTextureName(int max);
+	void SetRandomTextureName(int max);
 
 #if WITH_IMGUI // Tick에서 호출
 	void culcurateNowTime();
