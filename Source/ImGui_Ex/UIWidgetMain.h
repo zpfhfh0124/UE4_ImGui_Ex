@@ -25,6 +25,8 @@ public:
 public:
 	UFUNCTION(BlueprintCallable)
 	void OnClickImGuiToggleInputBtn();
+	UFUNCTION(BlueprintCallable)
+	void OnClickImGuiToggleDemoBtn();
 
 	UFUNCTION(BlueprintCallable)
 	void OnClickTimeWindowBtn();
