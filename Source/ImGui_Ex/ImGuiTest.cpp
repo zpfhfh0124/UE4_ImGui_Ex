@@ -28,6 +28,8 @@ void AImGuiTest::BeginPlay()
 		
 	}
 
+	max_texture_array = TextureArray.Num();
+
 	// ImGui의 World Delegate에 처리를 등록 
 	FImGuiDelegates::OnWorldDebug().AddUObject(this, &AImGuiTest::ImGuiTest);
 #endif // WITH_IMGUI
@@ -101,6 +103,7 @@ void AImGuiTest::ImGui_Show_NowTime()
 void AImGuiTest::ImGui_Show_Image()
 {
 	SetTitle(FString("View Image"));
+	rand_texture_name = GetRandomTextureName(max_texture_array);
 	IsOnImgWindow = true;
 }
 #endif
@@ -137,6 +140,18 @@ void AImGuiTest::wDayToString(int wDay)
 	}
 }
 
+FName AImGuiTest::GetRandomTextureName(int max)
+{
+	// 텍스쳐 배열에서 랜덤으로 한장 꺼낸다
+	// ** 현재 rs가 Null인 이슈 -> FRandomStream 인스턴스를 할당하고 메모리 관리 필요...
+	FRandomStream rs;
+	int rand_idx = rs.RandRange(0, max - 1);
+	FString str = FString::Printf(TEXT("pricone_%d"), rand_idx);
+	rand_texture_name = FName(*str);
+
+	return rand_texture_name;
+}
+
 void AImGuiTest::culcurateNowTime()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
@@ -151,17 +166,9 @@ void AImGuiTest::culcurateNowTime()
 
 void AImGuiTest::viewImage()
 {
-	SetTitle(FString("Image View"));
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
-
-	// 텍스쳐 배열에서 랜덤으로 한장 꺼낸다
-	int max = TextureArray.Num();
-
-	// ** 현재 rs가 Null인 이슈 -> FRandomStream 인스턴스를 할당하고 메모리 관리 필요...
-	int rand_idx = rs->RandRange(0, max - 1);
-	FString str = FString::Printf(TEXT("pricone_%d"), rand_idx);
-	FName name = FName(*str);
-	FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle(name);
+	
+	FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle(rand_texture_name);
 	ImGui::Image(TextureHandle, ImVec2(800, 300));
 
 	ImGui::End();

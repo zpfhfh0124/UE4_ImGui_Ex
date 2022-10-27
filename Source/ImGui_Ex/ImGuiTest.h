@@ -31,7 +31,8 @@ private:
 	bool IsOnTimeWindow = false;
 	bool IsOnImgWindow = false;
 
-	FRandomStream* rs;
+	FName rand_texture_name;
+	int max_texture_array = 0;
 public:	
 	virtual void Tick(float DeltaTime) override;
 	void SetTitle(FString title);
@@ -45,7 +46,9 @@ public:
 
 private:
 	void wDayToString(int wDay);
-#if WITH_IMGUI
+	FName GetRandomTextureName(int max);
+
+#if WITH_IMGUI // Tick에서 호출
 	void culcurateNowTime();
 	void viewImage();
 #endif
