@@ -32,6 +32,8 @@ public:
 	void OnClickTimeWindowBtn();
 	UFUNCTION(BlueprintCallable)
 	void OnClickImgWindowBtn();
+	UFUNCTION(BlueprintCallable)
+	void OnClickColorDrawBtn();
 
 private:
 	void SetImGuiTestActor();

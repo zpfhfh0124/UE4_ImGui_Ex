@@ -64,11 +64,15 @@ void AImGuiTest::Tick(float DeltaTime)
 #if WITH_IMGUI
 	//ImGui::Begin( TCHAR_TO_ANSI( *Title ) );
 	if (IsOnTimeWindow) {
-		culcurateNowTime();
+		onTick_ImGui_CulcurateNowTime();
 	}
 	
 	if (IsOnImgWindow) {
-		viewImage();
+		onTick_ImGui_ViewImage();
+	}
+
+	if (IsOnColorDraw) {
+		onTick_ImGui_DrawBoard();
 	}
 	//ImGui::End();
 #endif // WITH_IMGUI
@@ -89,7 +93,7 @@ void AImGuiTest::ImGuiClear()
 
 void AImGuiTest::ImGuiAlwaysShow()
 {
-	ImGui::Begin("ImGui -> UMG InputMode Change");
+	ImGui::Begin("Functions");
 
 	// 최초 1회만 실행
 	if (onInitAlwaysWindow) 
@@ -100,10 +104,17 @@ void AImGuiTest::ImGuiAlwaysShow()
 
 	ImGui::Text("ImGui World Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
 		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));
+
 	if (ImGui::Button("UMG InputMode Change")) 
 	{
 		GetGameInstance()->GetFirstLocalPlayerController()->ConsoleCommand(FString("ImGui.ToggleInput"));
 	};
+	ImGui::SameLine();
+	if (ImGui::Button("ImGui.ToggleDemo")) 
+	{
+		GetGameInstance()->GetFirstLocalPlayerController()->ConsoleCommand(FString("ImGui.ToggleDemo"));
+	}
+	ImGui::SameLine();
 	ImGui::End();
 }
 
@@ -122,6 +133,13 @@ void AImGuiTest::ImGui_Show_Image()
 	SetRandomTextureName(max_texture_array);
 	onClickedImgWindow = true;
 	IsOnImgWindow = true;
+}
+void AImGuiTest::ImGui_Show_Color_Draw()
+{
+	ImGuiClear();
+	SetTitle(FString("Color Draw"));
+	onClickedColorDraw = true;
+	IsOnColorDraw = true;
 }
 #endif
 
@@ -169,7 +187,7 @@ void AImGuiTest::SetRandomTextureName(int max)
 	rand_texture_name = FName(*str);
 }
 
-void AImGuiTest::culcurateNowTime()
+void AImGuiTest::onTick_ImGui_CulcurateNowTime()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
 
@@ -190,7 +208,7 @@ void AImGuiTest::culcurateNowTime()
 	ImGui::End();
 }
 
-void AImGuiTest::viewImage()
+void AImGuiTest::onTick_ImGui_ViewImage()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
 	
@@ -208,5 +226,26 @@ void AImGuiTest::viewImage()
 	FImGuiTextureHandle TextureHandle = FImGuiModule::Get().FindTextureHandle(rand_texture_name);
 	ImGui::Image(TextureHandle, ImVec2(800, 300));
 	
+	ImGui::End();
+}
+
+void AImGuiTest::onTick_ImGui_DrawBoard()
+{
+	ImGui::Begin(TCHAR_TO_ANSI(*Title));
+	
+	ImGuiColorEditFlags flags;
+	// 최초 1회만 실행
+	if (onClickedColorDraw) {
+		// 색상 값 초기화
+		color_v = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+		ref_color_v = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		flags = ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar && ImGuiColorEditFlags_AlphaPreview;
+
+		onClickedColorDraw = false;
+	}
+	ImGui::ColorPicker4("Color", (float*)&color_v, flags, &ref_color_v.x);
+
+	//ImGui::BeginChild("Draw Board", ImVec2(500, 500));
+
 	ImGui::End();
 }
