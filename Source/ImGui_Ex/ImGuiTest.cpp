@@ -7,6 +7,9 @@ AImGuiTest::AImGuiTest()
 {
  	PrimaryActorTick.bCanEverTick = true;
 	SetTitle( FString("ImGui Test") );
+
+	// 색상 값 초기화
+	color_v = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
 }
 
 void AImGuiTest::BeginPlay()
@@ -74,6 +77,10 @@ void AImGuiTest::Tick(float DeltaTime)
 	if (IsOnColorPicker) {
 		onTick_ImGui_ColorPicker();
 	}
+
+	if (IsOnTextInput) {
+		onTick_ImGui_TextInput();
+	}
 	//ImGui::End();
 #endif // WITH_IMGUI
 }
@@ -140,6 +147,14 @@ void AImGuiTest::ImGui_Show_Color_Picker()
 	SetTitle(FString("Color Picker"));
 	onClickedColorPicker = true;
 	IsOnColorPicker = true;
+}
+
+void AImGuiTest::ImGui_Show_TextInput()
+{
+	ImGuiClear();
+	SetTitle(FString("Text Input"));
+	onClickedTextInput = true;
+	IsOnTextInput = true;
 }
 #endif
 
@@ -235,16 +250,30 @@ void AImGuiTest::onTick_ImGui_ColorPicker()
 	
 	ImGuiColorEditFlags flags;
 	// 최초 1회만 실행
-	if (onClickedColorPicker) {
+	if (onClickedColorPicker)
+	{
 		ImGui::SetWindowSize(ImVec2(400, 400));
-
-		// 색상 값 초기화
-		color_v = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
 		flags = ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar && ImGuiColorEditFlags_AlphaPreview;
 
 		onClickedColorPicker = false;
 	}
 	ImGui::ColorPicker4("Current Color", (float*)&color_v, flags, NULL);
+
+	ImGui::End();
+}
+
+void AImGuiTest::onTick_ImGui_TextInput()
+{
+	ImGui::Begin(TCHAR_TO_ANSI(*Title));
+
+	// 최초 1회만 실행
+	if (onClickedTextInput) 
+	{
+
+		onClickedTextInput = false;
+	}
+
+	//ImGui::InputText()
 
 	ImGui::End();
 }
