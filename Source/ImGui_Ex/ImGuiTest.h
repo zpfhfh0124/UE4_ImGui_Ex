@@ -31,13 +31,13 @@ private:
 	// Tick 체크용
 	bool IsOnTimeWindow = false;
 	bool IsOnImgWindow = false;
-	bool IsOnColorDraw = false;
+	bool IsOnColorPicker = false;
 
 	// Tick에서 최최 1회만 호출하기 위한 bool
 	bool onInitAlwaysWindow = false;
 	bool onClickedTimeWindow = false;
 	bool onClickedImgWindow = false;
-	bool onClickedColorDraw = false;
+	bool onClickedColorPicker = false;
 
 	FName rand_texture_name;
 	int max_texture_array = 0;
@@ -54,7 +54,7 @@ public:
 	void ImGuiAlwaysShow();
 	void ImGui_Show_NowTime();
 	void ImGui_Show_Image();
-	void ImGui_Show_Color_Draw();
+	void ImGui_Show_Color_Picker();
 #endif
 
 private:
@@ -64,6 +64,6 @@ private:
 #if WITH_IMGUI // Tick에서 호출
 	void onTick_ImGui_CulcurateNowTime();
 	void onTick_ImGui_ViewImage();
-	void onTick_ImGui_DrawBoard();
+	void onTick_ImGui_ColorPicker();
 #endif
 };

@@ -36,7 +36,7 @@ void UUIWidgetMain::OnClickColorDrawBtn()
 {
 	SetImGuiTestActor();
 	if (ImGuiTest == nullptr) return;
-	ImGuiTest->ImGui_Show_Color_Draw();
+	ImGuiTest->ImGui_Show_Color_Picker();
 }
 
 // 버튼 클릭 -> ImGui 윈도우를 띄우기 전 호출해야 함.

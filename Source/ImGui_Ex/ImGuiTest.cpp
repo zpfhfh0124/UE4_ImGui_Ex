@@ -71,8 +71,8 @@ void AImGuiTest::Tick(float DeltaTime)
 		onTick_ImGui_ViewImage();
 	}
 
-	if (IsOnColorDraw) {
-		onTick_ImGui_DrawBoard();
+	if (IsOnColorPicker) {
+		onTick_ImGui_ColorPicker();
 	}
 	//ImGui::End();
 #endif // WITH_IMGUI
@@ -134,12 +134,12 @@ void AImGuiTest::ImGui_Show_Image()
 	onClickedImgWindow = true;
 	IsOnImgWindow = true;
 }
-void AImGuiTest::ImGui_Show_Color_Draw()
+void AImGuiTest::ImGui_Show_Color_Picker()
 {
 	ImGuiClear();
-	SetTitle(FString("Color Draw"));
-	onClickedColorDraw = true;
-	IsOnColorDraw = true;
+	SetTitle(FString("Color Picker"));
+	onClickedColorPicker = true;
+	IsOnColorPicker = true;
 }
 #endif
 
@@ -229,23 +229,22 @@ void AImGuiTest::onTick_ImGui_ViewImage()
 	ImGui::End();
 }
 
-void AImGuiTest::onTick_ImGui_DrawBoard()
+void AImGuiTest::onTick_ImGui_ColorPicker()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
 	
 	ImGuiColorEditFlags flags;
 	// 최초 1회만 실행
-	if (onClickedColorDraw) {
+	if (onClickedColorPicker) {
+		ImGui::SetWindowSize(ImVec2(400, 400));
+
 		// 색상 값 초기화
-		color_v = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
-		ref_color_v = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		color_v = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
 		flags = ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar && ImGuiColorEditFlags_AlphaPreview;
 
-		onClickedColorDraw = false;
+		onClickedColorPicker = false;
 	}
-	ImGui::ColorPicker4("Color", (float*)&color_v, flags, &ref_color_v.x);
-
-	//ImGui::BeginChild("Draw Board", ImVec2(500, 500));
+	ImGui::ColorPicker4("Current Color", (float*)&color_v, flags, NULL);
 
 	ImGui::End();
 }
