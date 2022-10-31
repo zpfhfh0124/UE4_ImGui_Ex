@@ -18,9 +18,13 @@ void AImGuiTest::BeginPlay()
 
 #if WITH_IMGUI
 	// 한글 출력
+	//IMGUI_CHECKVERSION();
+	//ImGui::CreateContext();
 	auto& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\malgun.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
-	
+	//io.Fonts->Clear();
+	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\malgun.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
+	//io.Fonts->Build();
+
 	// 텍스쳐 등록
 	for (int idx = 0; idx != TextureArray.Num(); ++idx) 
 	{
@@ -81,6 +85,10 @@ void AImGuiTest::Tick(float DeltaTime)
 	if (IsOnTextInput) {
 		onTick_ImGui_TextInput();
 	}
+
+	if (IsOnScrollCheckbox) {
+		onTick_ImGui_ScrollCheckbox();
+	}
 	//ImGui::End();
 #endif // WITH_IMGUI
 }
@@ -95,6 +103,8 @@ void AImGuiTest::ImGuiClear()
 {
 	IsOnTimeWindow = false;
 	IsOnImgWindow = false;
+	IsOnColorPicker = false;
+	IsOnTextInput = false;
 	ImGui::End();
 }
 
@@ -112,7 +122,7 @@ void AImGuiTest::ImGuiAlwaysShow()
 	ImGui::Text("ImGui World Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
 		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));
 
-	if (ImGui::Button("UMG InputMode Change")) 
+	if (ImGui::Button(u8"UMG InputMode Change UMG 입력모드")) 
 	{
 		GetGameInstance()->GetFirstLocalPlayerController()->ConsoleCommand(FString("ImGui.ToggleInput"));
 	};
@@ -155,6 +165,14 @@ void AImGuiTest::ImGui_Show_TextInput()
 	SetTitle(FString("Text Input"));
 	onClickedTextInput = true;
 	IsOnTextInput = true;
+}
+
+void AImGuiTest::ImGui_Show_ScrollCheckbox()
+{
+	ImGuiClear();
+	SetTitle(FString("ScrollBack and CheckBox"));
+	onClickedScrollCheckbox = true;
+	IsOnScrollCheckbox = true;
 }
 #endif
 
@@ -273,7 +291,22 @@ void AImGuiTest::onTick_ImGui_TextInput()
 		onClickedTextInput = false;
 	}
 
-	//ImGui::InputText()
+	ImGui::InputTextMultiline("Input Text", text, IM_ARRAYSIZE(text), ImVec2(200, 200));
+	ImGui::TextColored(color_v, text);
+
+	ImGui::End();
+}
+
+void AImGuiTest::onTick_ImGui_ScrollCheckbox()
+{
+	ImGui::Begin(TCHAR_TO_ANSI(*Title));
+
+	// 최초 1회만 실행
+	if (onClickedScrollCheckbox)
+	{
+
+		onClickedScrollCheckbox = false;
+	}
 
 	ImGui::End();
 }

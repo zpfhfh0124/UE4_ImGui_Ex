@@ -33,6 +33,7 @@ private:
 	bool IsOnImgWindow = false;
 	bool IsOnColorPicker = false;
 	bool IsOnTextInput = false;
+	bool IsOnScrollCheckbox = false;
 
 	// Tick에서 최최 1회만 호출하기 위한 bool
 	bool onInitAlwaysWindow = false;
@@ -40,13 +41,15 @@ private:
 	bool onClickedImgWindow = false;
 	bool onClickedColorPicker = false;
 	bool onClickedTextInput = false;
+	bool onClickedScrollCheckbox = false;
 
 	FName rand_texture_name;
 	int max_texture_array = 0;
 	int curr_texture_idx = 0;
 
 	ImVec4 color_v;
-	
+
+	char text[256 * 8] = { NULL };
 public:	
 	virtual void Tick(float DeltaTime) override;
 	void SetTitle(FString title);
@@ -58,6 +61,7 @@ public:
 	void ImGui_Show_Image();
 	void ImGui_Show_Color_Picker();
 	void ImGui_Show_TextInput();
+	void ImGui_Show_ScrollCheckbox();
 #endif
 
 private:
@@ -69,5 +73,6 @@ private:
 	void onTick_ImGui_ViewImage();
 	void onTick_ImGui_ColorPicker();
 	void onTick_ImGui_TextInput();
+	void onTick_ImGui_ScrollCheckbox();
 #endif
 };

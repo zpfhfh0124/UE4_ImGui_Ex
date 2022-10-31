@@ -34,6 +34,10 @@ public:
 	void OnClickImgWindowBtn();
 	UFUNCTION(BlueprintCallable)
 	void OnClickColorDrawBtn();
+	UFUNCTION(BlueprintCallable)
+	void OnClickTextInputBtn();
+	UFUNCTION(BlueprintCallable)
+	void OnClickScrollCheckBoxBtn();
 
 private:
 	void SetImGuiTestActor();
