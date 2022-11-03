@@ -28,6 +28,8 @@ private:
 	FString Title;
 	FString eWDay_to_string;
 
+	ImFont* font;
+
 	// Tick Ã¼Å©¿ë
 	bool IsOnTimeWindow = false;
 	bool IsOnImgWindow = false;

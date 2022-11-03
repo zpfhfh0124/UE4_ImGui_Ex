@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include <time.h>
 #include "ImGuiTest.h"
+#include <time.h>
 
 AImGuiTest::AImGuiTest()
 {
@@ -18,11 +18,10 @@ void AImGuiTest::BeginPlay()
 
 #if WITH_IMGUI
 	// 한글 출력
-	//IMGUI_CHECKVERSION();
-	//ImGui::CreateContext();
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
 	auto& io = ImGui::GetIO();
-	//io.Fonts->Clear();
-	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\malgun.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
+	font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\malgun.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
 	//io.Fonts->Build();
 
 	// 텍스쳐 등록
@@ -105,6 +104,7 @@ void AImGuiTest::ImGuiClear()
 	IsOnImgWindow = false;
 	IsOnColorPicker = false;
 	IsOnTextInput = false;
+	IsOnScrollCheckbox = false;
 	ImGui::End();
 }
 
@@ -122,7 +122,7 @@ void AImGuiTest::ImGuiAlwaysShow()
 	ImGui::Text("ImGui World Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
 		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));
 
-	if (ImGui::Button(u8"UMG InputMode Change UMG 입력모드")) 
+	if (ImGui::Button(u8"UMG 입력모드")) 
 	{
 		GetGameInstance()->GetFirstLocalPlayerController()->ConsoleCommand(FString("ImGui.ToggleInput"));
 	};
@@ -266,7 +266,7 @@ void AImGuiTest::onTick_ImGui_ColorPicker()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
 	
-	ImGuiColorEditFlags flags;
+	ImGuiColorEditFlags flags = 0;
 	// 최초 1회만 실행
 	if (onClickedColorPicker)
 	{
@@ -300,13 +300,34 @@ void AImGuiTest::onTick_ImGui_TextInput()
 void AImGuiTest::onTick_ImGui_ScrollCheckbox()
 {
 	ImGui::Begin(TCHAR_TO_ANSI(*Title));
-
+	ImGuiWindowFlags flags = 0;
+	static float scroll_to_off_px;
+	static float scroll_to_pos_px;
 	// 최초 1회만 실행
 	if (onClickedScrollCheckbox)
 	{
-
+		flags = ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar;
+		scroll_to_off_px = 50.0f;
+		scroll_to_pos_px = 50.0f;
+		
 		onClickedScrollCheckbox = false;
 	}
+
+	bool isChildWindow = ImGui::BeginChild(ImGui::GetID((void*)intptr_t(0)), ImVec2(200, 400), false, flags);
+	if (ImGui::BeginMenuBar())
+	{
+		ImGui::TextUnformatted("aaa");
+		ImGui::EndMenuBar();
+	}
+	if (isChildWindow) 
+	{
+		for (int item = 0; item < 100; item++)
+		{
+			ImGui::Text("Item %d", item);
+		}
+	}
+	
+	ImGui::EndChild();
 
 	ImGui::End();
 }
