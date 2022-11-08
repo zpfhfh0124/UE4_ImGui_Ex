@@ -1,0 +1,54 @@
+{
+  "Category": "Texture",
+  "name": "TextureArray_Pricone",
+  "Texture": [
+    {
+      "name": "Mitsuki",
+      "guild": "Twilight Caravan"
+    },
+    {
+      "name": "Yuki",
+      "guild": "WeiB Flugel Landsol Branch"
+    },
+    {
+      "name": "Kaori",
+      "guild": "Caon"
+    },
+    {
+      "name": "Ninon",
+      "guild": "WeiB Flugel Landsol Branch"
+    },
+    {
+      "name": "Craditta",
+      "guild": ""
+    },
+    {
+      "name": "Hiyori",
+      "guild": "Twinkle Wish"
+    },
+    {
+      "name": "Yui",
+      "guild": ""
+    },
+    {
+      "name": "Rei",
+      "guild": ""
+    },
+    {
+      "name": "Pecorin",
+      "guild": ""
+    },
+    {
+      "name": "Kokoro",
+      "guild": ""
+    },
+    {
+      "name": "Kyaru",
+      "guild": ""
+    },
+    {
+      "name": "Shiori",
+      "guild": ""
+    }
+  ]
+}

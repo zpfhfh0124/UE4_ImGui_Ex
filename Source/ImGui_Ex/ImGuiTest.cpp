@@ -3,6 +3,7 @@
 #include "ImGuiTest.h"
 #include <time.h>
 #include <Math/RandomStream.h>
+#include "Misc/FileHelper.h"
 
 AImGuiTest::AImGuiTest()
 {
@@ -136,6 +137,18 @@ void AImGuiTest::ImGuiAlwaysShow()
 	ImGui::End();
 }
 
+void AImGuiTest::LoadJsonData()
+{
+	file_str = TEXT("name");
+
+	FFileHelper::LoadFileToString(file_str, *file_path);
+
+	TSharedRef<TJsonReader<TCHAR>> reader = TJsonReaderFactory<TCHAR>::Create("name");
+	TSharedPtr<FJsonObject> jsonObject = MakeShareable(new FJsonObject());
+	FJsonSerializer::Deserialize(reader, jsonObject);
+
+}
+
 void AImGuiTest::ImGui_Show_NowTime()
 {
 	ImGuiClear();
@@ -172,6 +185,7 @@ void AImGuiTest::ImGui_Show_ScrollCheckbox()
 {
 	ImGuiClear();
 	SetTitle(FString("ScrollBack and CheckBox"));
+	LoadJsonData();
 	onClickedScrollCheckbox = true;
 	IsOnScrollCheckbox = true;
 }

@@ -8,11 +8,13 @@ public class ImGui_Ex : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG", "Json" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
 		PrivateDependencyModuleNames.Add("ImGui");
+
+		PrivateDependencyModuleNames.Add("Core");
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

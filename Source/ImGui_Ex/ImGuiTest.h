@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 
 #include "ImGuiCommon.h"
+#include "Misc/FileHelper.h"
 #include "ImGuiTest.generated.h"
 
 UCLASS()
@@ -52,10 +53,14 @@ private:
 	ImVec4 color_v;
 
 	char text[256 * 8];
+
+	FString file_str;
+	FString file_path = TEXT("F:\\Unreal Projects\\ImGui_Ex\\Content\\Data\\pricone_list.Json");
 public:	
 	virtual void Tick(float DeltaTime) override;
 	void SetTitle(FString title);
-	
+	void LoadJsonData();
+
 #if WITH_IMGUI
 	void ImGuiClear();
 	void ImGuiAlwaysShow();
