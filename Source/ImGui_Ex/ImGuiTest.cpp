@@ -2,6 +2,7 @@
 
 #include "ImGuiTest.h"
 #include <time.h>
+#include <Math/RandomStream.h>
 
 AImGuiTest::AImGuiTest()
 {
@@ -119,8 +120,8 @@ void AImGuiTest::ImGuiAlwaysShow()
 		onInitAlwaysWindow = false;
 	}
 
-	ImGui::Text("ImGui World Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
-		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));
+	/*ImGui::Text("ImGui World Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
+		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));*/
 
 	if (ImGui::Button(u8"UMG 입력모드")) 
 	{
@@ -212,7 +213,7 @@ void AImGuiTest::SetRandomTextureName(int max)
 {
 	// 텍스쳐 배열에서 랜덤으로 한장 꺼낸다
 	// ** 현재 rs가 Null인 이슈 -> FRandomStream 인스턴스를 할당하고 메모리 관리 필요...
-	FRandomStream rs = FRandomStream::FRandomStream();
+	FRandomStream rs = FRandomStream();
 	rs.GenerateNewSeed();
 	int rand_idx = rs.RandRange(0, max - 1);
 	FString str = FString::Printf(TEXT("pricone_%d"), rand_idx);
@@ -236,7 +237,7 @@ void AImGuiTest::onTick_ImGui_CulcurateNowTime()
 	time_t curTime = time(NULL);
 	struct tm* pLocalTime = localtime(&curTime);
 	wDayToString(pLocalTime->tm_wday);
-	ImGui::Text("Today : %04dY %02dM %02dD (%s)", 1900 + pLocalTime->tm_year, pLocalTime->tm_mon + 1, pLocalTime->tm_mday, *eWDay_to_string);
+	ImGui::Text("Today : %04dY %02dM %02dD ", 1900 + pLocalTime->tm_year, pLocalTime->tm_mon + 1, pLocalTime->tm_mday/*, *eWDay_to_string*/);
 	ImGui::Text("Now Time { %02d:%02d:%02d }", pLocalTime->tm_hour, pLocalTime->tm_min, pLocalTime->tm_sec);
 	ImGui::End();
 }
@@ -271,7 +272,7 @@ void AImGuiTest::onTick_ImGui_ColorPicker()
 	if (onClickedColorPicker)
 	{
 		ImGui::SetWindowSize(ImVec2(400, 400));
-		flags = ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar && ImGuiColorEditFlags_AlphaPreview;
+		flags = ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar & ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaPreview;
 
 		onClickedColorPicker = false;
 	}
@@ -292,7 +293,7 @@ void AImGuiTest::onTick_ImGui_TextInput()
 	}
 
 	ImGui::InputTextMultiline("Input Text", text, IM_ARRAYSIZE(text), ImVec2(200, 200));
-	ImGui::TextColored(color_v, text);
+	//ImGui::TextColored(color_v, text);
 
 	ImGui::End();
 }

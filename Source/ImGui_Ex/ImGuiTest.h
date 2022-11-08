@@ -51,7 +51,7 @@ private:
 
 	ImVec4 color_v;
 
-	char text[256 * 8] = { NULL };
+	char text[256 * 8];
 public:	
 	virtual void Tick(float DeltaTime) override;
 	void SetTitle(FString title);
