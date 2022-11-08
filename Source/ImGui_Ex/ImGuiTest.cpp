@@ -1,9 +1,9 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "ImGuiTest.h"
+#include "Misc/FileHelper.h"
 #include <time.h>
 #include <Math/RandomStream.h>
-#include "Misc/FileHelper.h"
 
 AImGuiTest::AImGuiTest()
 {
@@ -145,8 +145,16 @@ void AImGuiTest::LoadJsonData()
 
 	TSharedRef<TJsonReader<TCHAR>> reader = TJsonReaderFactory<TCHAR>::Create("name");
 	TSharedPtr<FJsonObject> jsonObject = MakeShareable(new FJsonObject());
-	FJsonSerializer::Deserialize(reader, jsonObject);
+	
+	if ( FJsonSerializer::Deserialize(reader, jsonObject) && jsonObject.IsValid() )
+	{
+		FString char_name;
+		jsonObject->TryGetStringField(TEXT("name"), char_name);
 
+		FString guild;
+		jsonObject->TryGetStringField(TEXT("guild"), guild);
+	}
+	
 }
 
 void AImGuiTest::ImGui_Show_NowTime()

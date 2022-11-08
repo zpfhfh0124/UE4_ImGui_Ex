@@ -14,8 +14,6 @@ public class ImGui_Ex : ModuleRules
 
 		PrivateDependencyModuleNames.Add("ImGui");
 
-		PrivateDependencyModuleNames.Add("Core");
-
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 
