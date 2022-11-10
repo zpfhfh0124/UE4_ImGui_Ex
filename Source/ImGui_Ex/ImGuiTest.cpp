@@ -315,7 +315,7 @@ void AImGuiTest::onTick_ImGui_TextInput()
 	}
 
 	ImGui::InputTextMultiline("Input Text", text, IM_ARRAYSIZE(text), ImVec2(200, 200));
-	//ImGui::TextColored(color_v, text);
+	ImGui::TextColored(color_v, "%s", text);
 
 	ImGui::End();
 }
