@@ -124,7 +124,7 @@ void AImGuiTest::ImGuiAlwaysShow()
 	/*ImGui::Text("ImGui World Tick: Actor = '%ls', World = '%ls', CurrentWorld = '%ls'",
 		*GetNameSafe(this), *GetNameSafe(GetWorld()), *GetNameSafe(GWorld));*/
 
-	if (ImGui::Button(u8"UMG 입력모드")) 
+	if (ImGui::Button(u8"UMG Mode")) 
 	{
 		GetGameInstance()->GetFirstLocalPlayerController()->ConsoleCommand(FString("ImGui.ToggleInput"));
 	};
