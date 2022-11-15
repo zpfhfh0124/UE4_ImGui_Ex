@@ -29,11 +29,9 @@ void AImGuiTest::BeginPlay()
 	// 텍스쳐 등록
 	for (int idx = 0; idx != TextureArray.Num(); ++idx) 
 	{
-
 		FString str = FString::Printf(TEXT("pricone_%d"), idx);
 		FName name = FName(*str);
-		FImGuiModule::Get().RegisterTexture(name, TextureArray[idx]);
-		
+		FImGuiModule::Get().RegisterTexture(name, TextureArray[idx]);	
 	}
 
 	max_texture_array = TextureArray.Num();
